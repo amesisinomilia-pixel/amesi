@@ -1,0 +1,19 @@
+{
+  "name": "office-explorer-quest",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "fetch-map": "node scripts/fetch-map.mjs",
+    "build": "npm run fetch-map && vite build",
+    "dev": "vite"
+  },
+  "dependencies": {
+    "@workadventure/quests": "1.1.7"
+  },
+  "devDependencies": {
+    "@workadventure/iframe-api-typings": "1.33.4",
+    "typescript": "5.9.2",
+    "vite": "8.2.2"
+  }
+}
