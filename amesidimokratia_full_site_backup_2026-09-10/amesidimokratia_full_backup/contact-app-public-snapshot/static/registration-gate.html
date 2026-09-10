@@ -1,0 +1,317 @@
+<!doctype html>
+<html lang="el">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<script src="https://office.directdemocra.cy/iframe_api.js"></script>
+
+<title>Άμεση Δημοκρατία Κύπρου</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    font-family: Arial, Helvetica, sans-serif;
+    background: rgba(10, 18, 25, 0.90);
+}
+
+.wrap {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 18px;
+}
+
+.card {
+    width: min(920px, 100%);
+    max-height: calc(100vh - 36px);
+    overflow-y: auto;
+
+    background: #fff;
+    border-radius: 16px;
+    padding: 28px;
+
+    box-shadow:
+        0 20px 70px rgba(0,0,0,.45);
+
+    text-align: center;
+}
+
+.brand {
+    color: #064c73;
+    font-size: 26px;
+    font-weight: 800;
+    margin-bottom: 18px;
+}
+
+h1 {
+    margin: 0;
+    color: #17212b;
+    font-size: 26px;
+    line-height: 1.25;
+}
+
+.english {
+    margin: 8px 0 20px;
+    color: #687684;
+    font-size: 16px;
+    line-height: 1.45;
+}
+
+.form-preview {
+    width: 100%;
+    max-width: 760px;
+    display: block;
+
+    margin: 0 auto 22px;
+
+    border: 1px solid #d8dde3;
+    border-radius: 10px;
+
+    box-shadow:
+        0 4px 18px rgba(0,0,0,.12);
+}
+
+.question {
+    margin: 4px 0 16px;
+
+    color: #17212b;
+    font-size: 19px;
+    font-weight: 750;
+}
+
+.buttons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+
+    max-width: 620px;
+    margin: 0 auto;
+}
+
+button {
+    min-height: 56px;
+    padding: 10px 16px;
+
+    border-radius: 10px;
+
+    font-size: 17px;
+    font-weight: 750;
+
+    cursor: pointer;
+}
+
+#yes {
+    background: #064c73;
+    color: #fff;
+    border: 1px solid #064c73;
+}
+
+#no {
+    background: #f2f4f6;
+    color: #17212b;
+    border: 1px solid #d5dbe1;
+}
+
+button:disabled {
+    opacity: .6;
+    cursor: wait;
+}
+
+.note {
+    margin-top: 18px;
+    color: #89939d;
+    font-size: 13px;
+}
+
+#error {
+    display: none;
+    margin-top: 14px;
+    color: #b42318;
+    font-size: 13px;
+}
+
+
+/* Mobile */
+@media (max-width: 600px) {
+
+    .wrap {
+        padding: 8px;
+    }
+
+    .card {
+        max-height: calc(100vh - 16px);
+        padding: 18px 12px;
+        border-radius: 10px;
+    }
+
+    .brand {
+        font-size: 20px;
+        margin-bottom: 12px;
+    }
+
+    h1 {
+        font-size: 20px;
+    }
+
+    .english {
+        font-size: 14px;
+        margin-bottom: 14px;
+    }
+
+    .form-preview {
+        border-radius: 6px;
+        margin-bottom: 16px;
+    }
+
+    .question {
+        font-size: 17px;
+    }
+
+    .buttons {
+        grid-template-columns: 1fr;
+    }
+
+    button {
+        min-height: 50px;
+        font-size: 16px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="wrap">
+
+    <div class="card">
+
+        <h1>
+            Έχετε ήδη συμπληρώσει την παρακάτω φόρμα εγγραφής;
+        </h1>
+
+        <p class="english">
+            Have you already completed the registration form shown below?
+        </p>
+
+        <img
+            class="form-preview"
+            src="/static/registration-form-preview.png"
+            alt="Direct Democracy Cyprus Office registration form"
+        >
+
+        <div class="question">
+            Έχετε συμπληρώσει αυτή τη φόρμα;
+        </div>
+
+        <div class="buttons">
+
+            <button id="yes">
+                Ναι, την έχω συμπληρώσει<br>
+                <small>Yes</small>
+            </button>
+
+            <button id="no">
+                Όχι<br>
+                <small>No</small>
+            </button>
+
+        </div>
+
+        <div class="note">
+            Πρέπει να επιλέξετε μία από τις δύο επιλογές για να συνεχίσετε.
+        </div>
+
+        <div id="error">
+            Παρουσιάστηκε πρόβλημα. Παρακαλώ προσπαθήστε ξανά.
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+(async () => {
+
+    const yes =
+        document.getElementById("yes");
+
+    const no =
+        document.getElementById("no");
+
+    const error =
+        document.getElementById("error");
+
+
+    try {
+
+        await WA.onInit();
+
+
+        // NO:
+        // User has not completed the registration form.
+        no.onclick = () => {
+
+            yes.disabled = true;
+            no.disabled = true;
+
+            WA.nav.goToPage(
+                "https://register.directdemocra.cy"
+            );
+        };
+
+
+        // YES:
+        // User already registered, so send them to
+        // the WorkAdventure login flow.
+        yes.onclick = async () => {
+
+            yes.disabled = true;
+            no.disabled = true;
+
+            try {
+
+                await WA.nav.goToLogin();
+
+            } catch (e) {
+
+                console.error(
+                    "Login redirect failed:",
+                    e
+                );
+
+                error.style.display =
+                    "block";
+
+                yes.disabled = false;
+                no.disabled = false;
+            }
+        };
+
+
+    } catch (e) {
+
+        console.error(
+            "Registration gate initialization failed:",
+            e
+        );
+
+        error.style.display =
+            "block";
+    }
+
+})();
+</script>
+
+</body>
+</html>

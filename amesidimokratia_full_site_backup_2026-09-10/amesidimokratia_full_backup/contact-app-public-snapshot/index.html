@@ -1,0 +1,149 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>CaiPRUS</title>
+<link rel="stylesheet" href="/static/style.css">
+<link rel="stylesheet" href="/static/district-calls.css?v=20260910-3">
+<script src="https://office.directdemocra.cy/iframe_api.js"></script>
+</head>
+<body>
+
+<button id="caiprus-mobile-close" class="caiprus-mobile-close" type="button" aria-label="Κλείσιμο">×</button>
+
+<div id="auth-gate" class="auth-gate">
+  <div class="auth-card">
+    <div class="auth-logo">C</div>
+    <h1>CaiPRUS</h1>
+    <p id="auth-message">Starting AI tools, please wait…</p>
+    <div id="auth-detail" class="auth-detail hidden"></div>
+  </div>
+</div>
+
+<div id="staff-app" class="hidden">
+<button id="caiprus-panel-close"
+        class="caiprus-panel-close"
+        title="Κλείσιμο"
+        aria-label="Κλείσιμο">×</button>
+<div class="shell">
+<aside>
+  <div class="brand"><b>CaiPRUS</b><span>Citizen Inbox</span></div>
+  <div class="who"><div class="avatar">C</div><div><b id="actor-name">—</b><small id="actor-dept">—</small></div></div>
+  <nav>
+    <button class="nav active" data-status="default">📬 Default Inbox</button>
+    <button class="nav" data-status="all">📥 All</button>
+    <button class="nav" data-status="new">🆕 New</button>
+    <button class="nav" data-status="assigned">👤 Assigned</button>
+    <button class="nav" data-status="waiting_citizen">⏳ Waiting for citizen</button>
+    <button class="nav" data-status="waiting_internal">🏛 Waiting internally</button>
+    <button class="nav" data-status="answered">✅ Answered</button>
+    <button class="nav" data-status="closed">🗃 Closed</button>
+  </nav>
+  <div class="system"><span class="dot"></span> WorkAdventure authenticated<br><small id="wa-state">—</small></div>
+</aside>
+<main>
+  <header>
+    <div><h1>Citizen Inquiries</h1><p>Organization-wide queue managed with CaiPRUS</p></div>
+    <div><button class="light" id="sync-staff">↻ Sync staff</button><button class="light" id="directory-btn">Staff directory</button></div>
+  </header>
+  <section class="connections">
+    <div class="connection-head"><strong>Live connections</strong><button class="light" id="test-connections">Test connections</button></div>
+    <div class="connection-grid">
+      <div class="connection" id="conn-openai"><span>OpenAI / CaiPRUS</span><b>Checking…</b></div>
+      <div class="connection" id="conn-matrix"><span>WorkAdventure Chat / Listener</span><b>Checking…</b></div>
+      <div class="connection" id="conn-wa"><span>WorkAdventure World</span><b>Checking…</b></div>
+      <div class="connection" id="conn-stats"><span>Staff Statistics</span><b>Checking…</b></div>
+    </div>
+  </section>
+  <section class="stats">
+    <div><span>Open</span><b id="s-open">0</b></div>
+    <div><span>Urgent</span><b id="s-urgent">0</b></div>
+    <div><span>Unassigned</span><b id="s-unassigned">0</b></div>
+    <div><span>Waiting</span><b id="s-waiting">0</b></div>
+  </section>
+  <section class="workspace">
+    <div class="list">
+      <div class="toolbar"><input id="search" placeholder="Search"><select id="dept-filter"><option value="all">All departments</option></select></div>
+      <div id="rows"></div>
+    </div>
+    <div class="detail" id="detail"><div class="empty"><div>💬</div><h2>Select an inquiry</h2><p>Review, route, assign, add an internal note or reply.</p></div></div>
+  </section>
+</main>
+</div>
+</div>
+
+<div id="citizen-app" class="hidden citizen-page">
+  <header class="citizen-header">
+    <div>
+      <div class="citizen-brand">CaiPRUS</div>
+      <h1>Επικοινωνία με το Γραφείο</h1>
+      <p id="citizen-welcome">Καλώς ήρθατε.</p>
+    </div>
+    <button id="citizen-new" class="primary citizen-new-btn">+ Νέο μήνυμα</button>
+  </header>
+
+  <main class="citizen-main">
+    <section class="district-calls" aria-labelledby="district-title">
+      <div class="district-call-heading">
+        <span class="district-phone-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M8 3H4a1 1 0 0 0-1 1c0 9.4 7.6 17 17 17a1 1 0 0 0 1-1v-4l-5-2-2 2a14 14 0 0 1-6-6l2-2-2-5Z"/></svg></span>
+        <div><h2 id="district-title">Τηλεφωνική επικοινωνία</h2><p>Μιλήστε με το επαρχιακό γραφείο.</p></div>
+      </div>
+      <div class="district-call-layout">
+        <div class="district-call-field">
+          <label id="district-label" for="citizen-district">Επαρχία</label>
+          <select id="citizen-district" aria-describedby="district-call-status">
+            <option value="">Επιλέξτε επαρχία</option>
+            <option value="nicosia">Λευκωσία</option>
+            <option value="limassol">Λεμεσός</option>
+            <option value="larnaca">Λάρνακα</option>
+            <option value="pafos">Πάφος</option>
+            <option value="famagusta">Αμμόχωστος</option>
+            <option value="kyrenia">Κερύνεια</option>
+          </select>
+        </div>
+        <div class="district-call-action">
+          <p id="district-call-status" role="status" aria-live="polite">Επιλέξτε επαρχία για να δείτε τις επιλογές κλήσης.</p>
+          <div id="district-call-host"></div>
+          <a id="district-call-external" target="_blank" rel="noopener noreferrer" hidden>Κλήση στην Πάφο <span aria-hidden="true">↗</span></a>
+          <p id="district-call-hint" hidden>Ανοίγει σε νέα καρτέλα για χρήση του μικροφώνου.</p>
+        </div>
+      </div>
+    </section>
+    <section id="citizen-empty" class="citizen-empty hidden">
+      <div class="citizen-empty-icon">✉️</div>
+      <h2>Δεν έχετε στείλει ακόμη μήνυμα</h2>
+      <p>Μπορείτε να επικοινωνήσετε με το Γραφείο Άμεσης Δημοκρατίας μέσω του CaiPRUS.</p>
+      <button id="citizen-empty-new" class="primary">Στείλτε νέο μήνυμα</button>
+    </section>
+
+    <section id="citizen-mailbox" class="citizen-mailbox hidden">
+      <div class="citizen-list-panel">
+        <div class="citizen-panel-title"><h2>Τα μηνύματά μου</h2><button id="citizen-refresh" class="light">↻ Ανανέωση</button></div>
+        <div id="citizen-list"></div>
+      </div>
+      <div id="citizen-detail" class="citizen-detail">
+        <div class="empty"><div>💬</div><h2>Επιλέξτε ένα μήνυμα</h2><p>Εδώ θα βλέπετε τη συνομιλία και τις απαντήσεις του Γραφείου.</p></div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<div id="directory-modal" class="modal hidden"><div class="modal-card" style="width:min(760px,100%)">
+<div class="modal-head"><h2>Staff directory</h2><button id="directory-x">×</button></div>
+<div id="directory-list" style="max-height:520px;overflow:auto"></div>
+</div></div>
+
+<div id="citizen-new-modal" class="modal hidden">
+  <div class="modal-card">
+    <div class="modal-head"><h2>Νέο μήνυμα</h2><button id="citizen-new-x">×</button></div>
+    <label>Θέμα<input id="citizen-subject" maxlength="160" placeholder="Γράψτε σύντομα το θέμα"></label>
+    <label>Μήνυμα<textarea id="citizen-body" placeholder="Πώς μπορούμε να σας βοηθήσουμε;"></textarea></label>
+    <button id="citizen-send-new" class="primary full">Αποστολή</button>
+  </div>
+</div>
+
+<script src="/static/app.js"></script>
+<script src="/static/district-calls.js?v=20260910-3"></script>
+</body>
+</html>

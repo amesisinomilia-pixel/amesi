@@ -1,0 +1,19 @@
+.district-calls{background:#fff;border:1px solid #dfe6ef;border-radius:18px;padding:24px;margin-bottom:20px;box-shadow:0 2px 5px #182b4910}
+.district-call-heading{display:flex;align-items:center;gap:13px;margin-bottom:22px}
+.district-phone-icon{display:grid;place-items:center;flex:0 0 44px;height:44px;background:#edf3ff;color:#2454ce;border-radius:13px}
+.district-phone-icon svg{width:23px;height:23px}
+.district-calls .district-call-heading h2{font-size:19px;line-height:1.3;margin:0;color:#172b43}
+.district-calls .district-call-heading p{font-size:14px;color:#62718a;margin:4px 0 0;line-height:1.5}
+.district-call-layout{display:grid;grid-template-columns:minmax(200px,.9fr) minmax(0,1.1fr);align-items:start;gap:24px}
+.district-calls label{display:block;font-size:14px;font-weight:700;color:#27364b;margin-bottom:9px}
+.district-calls select{display:block;width:100%;min-height:48px;padding:11px 14px;border:1px solid #ced8e6;border-radius:10px;background:#fff;color:#172b43;font-size:16px;cursor:pointer}
+.district-calls select:focus-visible,.district-calls a:focus-visible{outline:3px solid #95b4ff;outline-offset:3px}
+.district-call-action{background:#f7f9fd;border:1px solid #e8edf5;border-radius:12px;padding:16px;min-width:0}
+.district-calls #district-call-status{font-size:14px;font-weight:600;line-height:1.5;color:#35465f;margin:0}
+.district-calls iframe{display:block;width:100%;height:170px;border:0;background:#f7f9fd;margin-top:6px}
+.district-calls #district-call-external{display:inline-flex;align-items:center;justify-content:center;gap:16px;font-size:13px;color:#2852b8;text-underline-offset:3px;margin-top:12px;line-height:1.4}
+.district-calls #district-call-external.district-call-primary{display:flex;width:100%;min-height:46px;padding:11px 15px;border-radius:9px;background:#2454d6;color:#fff;font-weight:700;font-size:15px;text-decoration:none;box-shadow:0 2px 3px #2454d620;transition:background .15s}
+.district-calls #district-call-external.district-call-primary:hover{background:#1944b8}
+.district-calls #district-call-hint{font-size:12px;line-height:1.5;color:#62718a;margin:9px 0 0}
+.district-calls [hidden]{display:none!important}
+@media(max-width:600px){.district-calls{padding:18px}.district-call-layout{grid-template-columns:1fr;gap:16px}.district-call-heading{margin-bottom:18px}.district-calls .district-call-heading h2{font-size:18px}}
