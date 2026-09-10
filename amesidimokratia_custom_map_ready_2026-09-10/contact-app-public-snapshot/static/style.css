@@ -1,0 +1,428 @@
+:root{--bg:#f4f6f8;--ink:#14202b;--muted:#6f7b86;--line:#e3e8ed;--blue:#2457d6;--side:#101820;--red:#d33d3d;--amber:#df8b16;--green:#21885b}
+*{box-sizing:border-box}body{margin:0;font-family:Inter,Segoe UI,Arial,sans-serif;background:var(--bg);color:var(--ink)}
+button,input,textarea,select{font:inherit}button{cursor:pointer}.shell{display:flex;min-height:100vh}
+aside{width:255px;background:linear-gradient(180deg,#101820,#17232e);color:#fff;padding:22px 16px;display:flex;flex-direction:column}
+.brand{display:flex;flex-direction:column;padding:0 8px 20px}.brand b{font-size:22px}.brand span{font-size:12px;color:#aebbc6}
+.who{display:flex;gap:10px;align-items:center;padding:12px;background:#ffffff10;border:1px solid #ffffff12;border-radius:12px}
+.avatar{width:38px;height:38px;border-radius:50%;background:#e8efff;color:#1746b8;display:grid;place-items:center;font-weight:800}
+.who small{display:block;color:#aebbc6;margin-top:3px}.switch{font-size:11px;color:#aebbc6;margin:12px 0}.switch select{width:100%;margin-top:5px;padding:8px;border-radius:8px;border:0}
+nav{display:flex;flex-direction:column;gap:4px}.nav{border:0;background:transparent;color:#d7e0e7;text-align:left;padding:10px;border-radius:8px}.nav:hover,.nav.active{background:#ffffff12;color:#fff}
+.system{margin-top:auto;border-top:1px solid #ffffff18;padding:15px 8px 0;font-size:12px}.system small{color:#aebbc6}.dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:#35c77a;margin-right:6px}
+main{flex:1;padding:25px;min-width:0}header{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}h1{margin:0;font-size:28px}header p{margin:4px 0 0;color:var(--muted)}
+.light,.primary,.danger{border-radius:9px;padding:9px 12px;font-weight:650}.light{background:white;border:1px solid var(--line);margin-left:6px}.primary{background:var(--blue);color:#fff;border:1px solid var(--blue)}.danger{background:#fff0f0;color:#b82e2e;border:1px solid #ffd7d7}.full{width:100%}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:12px}.stats>div{background:#fff;border:1px solid var(--line);border-radius:11px;padding:14px 16px;display:flex;justify-content:space-between;align-items:center}.stats span{font-size:12px;color:var(--muted)}.stats b{font-size:22px}.stats>div:nth-child(2) b{color:var(--red)}
+.workspace{display:grid;grid-template-columns:42% 58%;background:#fff;border:1px solid var(--line);border-radius:13px;overflow:hidden;min-height:690px}.list{border-right:1px solid var(--line)}.toolbar{display:flex;gap:7px;padding:11px;border-bottom:1px solid var(--line)}.toolbar input,.toolbar select{border:1px solid var(--line);padding:9px;border-radius:8px;min-width:0}.toolbar input{flex:1}.toolbar select{width:170px}
+.item{padding:13px 14px;border-bottom:1px solid var(--line);cursor:pointer}.item:hover{background:#fafbfc}.item.selected{background:#eef4ff}.top{display:flex;align-items:center;gap:7px}.p-dot{width:8px;height:8px;border-radius:50%}.urgent{background:var(--red)}.normal{background:var(--amber)}.low{background:var(--green)}.name{font-weight:750}.time{margin-left:auto;font-size:11px;color:var(--muted)}.subject{font-size:13px;font-weight:650;margin-top:5px}.preview{font-size:12px;color:var(--muted);margin-top:5px;line-height:1.4}.chips{display:flex;gap:5px;flex-wrap:wrap;margin-top:8px}.chip{font-size:10px;padding:4px 6px;border-radius:999px;background:#f0f2f4;color:#59636c}
+.empty{min-height:680px;display:grid;place-content:center;text-align:center;color:var(--muted)}.empty>div{font-size:40px}.empty h2{color:var(--ink);margin-bottom:5px}
+.detail-head{padding:17px 18px;border-bottom:1px solid var(--line)}.detail-title{display:flex;justify-content:space-between;gap:12px}.detail-title h2{margin:0;font-size:20px}.detail-title p{margin:4px 0;color:var(--muted);font-size:12px}.selectors{display:grid;grid-template-columns:1fr 1fr 1fr;gap:7px;margin-top:12px}.selectors label{font-size:10px;color:var(--muted)}.selectors select{display:block;width:100%;margin-top:4px;border:1px solid var(--line);padding:7px;border-radius:7px}
+.ai{margin:14px 18px 0;background:#f4f7ff;border:1px solid #ccd9fb;border-radius:10px;padding:11px 12px}.ai b{font-size:11px;color:#27498a;text-transform:uppercase}.ai p{font-size:12px;line-height:1.45;margin:6px 0 0}
+.thread{padding:15px 18px;max-height:295px;overflow:auto}.msg{display:flex;margin-bottom:10px}.msg.staff{justify-content:flex-end}.bubble{max-width:80%;background:#f0f2f4;border-radius:11px;padding:9px 11px;font-size:12px;line-height:1.5}.staff .bubble{background:#eaf0ff}.note .bubble{background:#fff7df;border:1px solid #f0d894}.mh{font-size:10px;color:var(--muted);margin-bottom:4px}
+.composer{border-top:1px solid var(--line);padding:12px 18px 16px}.composer textarea{width:100%;min-height:85px;border:1px solid var(--line);border-radius:9px;padding:10px;resize:vertical}.actions{display:flex;justify-content:space-between;gap:8px;margin-top:8px}.actions>div{display:flex;gap:6px}.small{font-size:10px;color:var(--muted);align-self:center}
+.modal{position:fixed;inset:0;background:#0a121999;display:grid;place-items:center;padding:20px}.hidden{display:none}.modal-card{width:min(520px,100%);background:#fff;border-radius:13px;padding:19px}.modal-head{display:flex;justify-content:space-between}.modal-head h2{margin:0}.modal-head button{border:0;background:transparent;font-size:26px}.modal label{display:block;font-size:12px;font-weight:650;margin:10px 0}.modal input,.modal select,.modal textarea{display:block;width:100%;margin-top:5px;padding:9px;border:1px solid var(--line);border-radius:8px}.modal textarea{min-height:110px}.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media(max-width:1000px){aside{width:210px}.workspace{grid-template-columns:46% 54%}.stats{grid-template-columns:repeat(2,1fr)}.selectors{grid-template-columns:1fr}}
+
+.connections{background:#fff;border:1px solid var(--line);border-radius:11px;margin-bottom:12px;padding:12px 14px}.connection-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}.connection-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}.connection{border:1px solid var(--line);border-radius:9px;padding:9px 10px}.connection span{display:block;font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.04em}.connection b{display:block;margin-top:4px;font-size:12px}.connection.ok b{color:var(--green)}.connection.bad b{color:var(--red)}.connection.warn b{color:var(--amber)}@media(max-width:1000px){.connection-grid{grid-template-columns:repeat(2,1fr)}}
+
+.auth-gate{min-height:100vh;display:grid;place-items:center;padding:24px;background:linear-gradient(145deg,#f4f6f8,#eaf0f7)}
+.auth-card{width:min(520px,100%);background:#fff;border:1px solid var(--line);border-radius:18px;padding:34px;text-align:center;box-shadow:0 18px 55px #16283a18}
+.auth-logo{margin:0 auto 12px;width:58px;height:58px;border-radius:18px;background:#14202b;color:#fff;display:grid;place-items:center;font-size:30px;font-weight:800}
+.auth-card h1{font-size:30px}.auth-card p{color:var(--muted);line-height:1.5}.auth-detail{margin-top:14px;padding:10px;border-radius:9px;background:#fff6e6;color:#7d5813;font-size:12px;overflow-wrap:anywhere}
+.citizen-page{min-height:100vh;background:#f5f7fa}
+.citizen-header{max-width:1180px;margin:auto;padding:34px 28px 20px;display:flex;align-items:center;justify-content:space-between;gap:20px}
+.citizen-header h1{font-size:30px;margin:3px 0}.citizen-header p{margin:4px 0;color:var(--muted)}.citizen-brand{font-size:13px;font-weight:800;letter-spacing:.08em;color:#2852b8}
+.citizen-new-btn{white-space:nowrap}.citizen-main{max-width:1180px;margin:auto;padding:0 28px 40px}
+.citizen-empty{background:#fff;border:1px solid var(--line);border-radius:16px;padding:70px 24px;text-align:center}.citizen-empty-icon{font-size:48px}.citizen-empty h2{margin-bottom:8px}.citizen-empty p{color:var(--muted);max-width:560px;margin:0 auto 22px;line-height:1.55}
+.citizen-mailbox{display:grid;grid-template-columns:360px minmax(0,1fr);min-height:650px;background:#fff;border:1px solid var(--line);border-radius:16px;overflow:hidden}
+.citizen-list-panel{border-right:1px solid var(--line)}.citizen-panel-title{padding:16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line)}.citizen-panel-title h2{margin:0;font-size:18px}
+.citizen-row{width:100%;border:0;border-bottom:1px solid var(--line);background:#fff;padding:15px;text-align:left}.citizen-row:hover,.citizen-row.active{background:#f4f7ff}.citizen-row>div{display:flex;gap:8px;align-items:start}.citizen-row b{flex:1;font-size:13px}.citizen-row span{font-size:10px;border-radius:999px;background:#edf2ff;color:#3156a6;padding:4px 7px}.citizen-row p{font-size:12px;color:var(--muted);line-height:1.4;margin:7px 0}.citizen-row small{font-size:10px;color:#8c969f}
+.citizen-detail{min-width:0}.citizen-thread-head{padding:18px 20px;border-bottom:1px solid var(--line)}.citizen-thread-head h2{margin:0;font-size:20px}.citizen-thread-head p{font-size:12px;color:var(--muted);margin:5px 0 0}
+.citizen-thread{padding:20px;max-height:480px;overflow:auto}.citizen-msg{display:flex;margin-bottom:12px}.citizen-msg.from-citizen{justify-content:flex-end}.citizen-bubble{max-width:78%;padding:11px 13px;border-radius:13px;background:#f0f2f4;font-size:13px;line-height:1.55}.from-citizen .citizen-bubble{background:#e8efff}
+.citizen-composer{border-top:1px solid var(--line);padding:14px 20px;display:flex;gap:10px}.citizen-composer textarea{flex:1;min-height:86px;border:1px solid var(--line);border-radius:10px;padding:10px;resize:vertical}.citizen-composer button{align-self:flex-end}.citizen-closed{margin:20px;padding:14px;border-radius:10px;background:#f2f4f6;color:var(--muted);font-size:12px}
+@media(max-width:800px){.citizen-header{align-items:flex-start;flex-direction:column}.citizen-mailbox{grid-template-columns:1fr}.citizen-list-panel{border-right:0;border-bottom:1px solid var(--line)}}
+
+
+/* v0.23 production UI cleanup */
+.hidden {
+    display: none !important;
+}
+
+/* Hide diagnostic/admin controls from the normal staff mailbox. */
+#sync-staff,
+#directory-btn,
+#test-connections,
+.connections {
+    display: none !important;
+}
+
+/* Staff reply composer: compact buttons that fit narrow WorkAdventure modals. */
+.actions {
+    display: flex;
+    justify-content: flex-end !important;
+    align-items: flex-start;
+    gap: 10px;
+    margin-top: 10px;
+    flex-wrap: wrap;
+}
+.actions > div {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    width: 100%;
+    justify-content: flex-end;
+}
+.actions button {
+    white-space: nowrap;
+}
+@media (max-width: 900px) {
+    .actions > div button {
+        flex: 1 1 180px;
+    }
+}
+
+
+/* v0.24 citizen unread indicators */
+.citizen-row.unread{background:#fff7f7}
+.citizen-row.unread b{font-weight:800}
+.citizen-unread-dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:#d93025;margin-right:6px;vertical-align:1px}
+
+
+/* v0.28 send confirmation */
+.staff-toast{
+    position:fixed;
+    right:24px;
+    bottom:24px;
+    z-index:10000;
+    padding:13px 18px;
+    border-radius:10px;
+    background:#16794d;
+    color:#fff;
+    font-weight:700;
+    box-shadow:0 10px 30px #0002;
+    opacity:0;
+    transform:translateY(10px);
+    pointer-events:none;
+    transition:opacity .18s ease,transform .18s ease;
+}
+.staff-toast.show{
+    opacity:1;
+    transform:translateY(0);
+}
+
+
+/* v0.42 guaranteed mobile CaiPRUS close button */
+.caiprus-mobile-close{
+    display:none;
+    position:fixed;
+    top:10px;
+    right:10px;
+    z-index:20000;
+    width:42px;
+    height:42px;
+    border:0;
+    border-radius:50%;
+    background:#17212b;
+    color:#fff;
+    font-size:28px;
+    line-height:42px;
+    padding:0;
+    box-shadow:0 4px 16px #0004;
+}
+.caiprus-mobile-close.show{display:block}
+
+
+/* v0.43 staff workspace: keep the reply composer and Send button visible. */
+#staff-app .shell{
+    height:100vh;
+    min-height:0;
+    overflow:hidden;
+}
+#staff-app aside{
+    height:100vh;
+    overflow-y:auto;
+}
+#staff-app main{
+    height:100vh;
+    min-height:0;
+    overflow:hidden;
+    display:flex;
+    flex-direction:column;
+}
+#staff-app header,
+#staff-app .stats{
+    flex:0 0 auto;
+}
+#staff-app .workspace{
+    flex:1 1 auto;
+    height:auto;
+    min-height:0 !important;
+}
+#staff-app .list{
+    min-height:0;
+    overflow-y:auto;
+}
+#staff-app .detail{
+    min-width:0;
+    min-height:0;
+    overflow:hidden;
+    display:flex;
+    flex-direction:column;
+}
+#staff-app .detail-head,
+#staff-app .ai,
+#staff-app .composer{
+    flex:0 0 auto;
+}
+#staff-app .detail-title p{
+    display:-webkit-box;
+    -webkit-line-clamp:2;
+    -webkit-box-orient:vertical;
+    overflow:hidden;
+}
+#staff-app .thread{
+    flex:1 1 auto;
+    min-height:90px;
+    max-height:none;
+    overflow-y:auto;
+}
+#staff-app .composer{
+    background:#fff;
+    border-top:1px solid var(--line);
+    padding:10px 18px 12px;
+}
+#staff-app .composer textarea{
+    display:block;
+    width:100%;
+    height:92px;
+    min-height:72px;
+    max-height:125px;
+    overflow-y:auto;
+    resize:vertical;
+}
+#staff-app .actions{
+    margin-top:8px;
+}
+#staff-app .actions > div{
+    display:grid;
+    grid-template-columns:repeat(3,minmax(0,1fr));
+    gap:7px;
+    width:100%;
+}
+#staff-app .actions button{
+    width:100%;
+    min-width:0;
+    margin-left:0;
+    padding:9px 6px;
+    font-size:12px;
+    overflow:hidden;
+    text-overflow:ellipsis;
+}
+@media (max-width:700px){
+    #staff-app .actions > div{
+        grid-template-columns:1fr;
+    }
+}
+
+
+/* ============================================================
+   CaiPRUS fixed-panel close button
+   ============================================================ */
+
+.caiprus-panel-close {
+    position: fixed;
+    top: 10px;
+    right: 12px;
+    z-index: 999999;
+
+    width: 38px;
+    height: 38px;
+
+    padding: 0;
+    margin: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: 1px solid #d5dbe3;
+    border-radius: 8px;
+
+    background: #ffffff;
+    color: #17212b;
+
+    font-size: 28px;
+    font-weight: 500;
+    line-height: 1;
+
+    box-shadow: 0 2px 8px rgba(0,0,0,.12);
+
+    cursor: pointer;
+}
+
+.caiprus-panel-close:hover {
+    background: #f1f3f5;
+}
+
+@media (max-width: 700px) {
+    .caiprus-panel-close {
+        top: 8px;
+        right: 8px;
+        width: 36px;
+        height: 36px;
+    }
+}
+
+/* Co-Website has its own native desktop close control */
+@media (min-width: 701px) {
+    .caiprus-panel-close {
+        display: none !important;
+    }
+}
+
+/* ============================================================
+   VPS-only desktop layout fix
+   Keep composer/buttons visible even when WA clips the iframe.
+   ============================================================ */
+
+@media (min-width: 701px) {
+
+    /* Undo accidental hiding of the close button */
+    .caiprus-panel-close {
+        display: flex !important;
+    }
+
+    /* Ticket panel */
+    #staff-app .detail {
+        display: flex !important;
+        flex-direction: column !important;
+        min-height: 0 !important;
+        overflow: hidden !important;
+    }
+
+    /* Header first */
+    #staff-app .detail-head {
+        order: 1;
+        flex: 0 0 auto !important;
+    }
+
+    /* AI summary second */
+    #staff-app .ai {
+        order: 2;
+        flex: 0 0 auto !important;
+    }
+
+    /*
+       Reply composer BEFORE the long conversation.
+       This guarantees the buttons remain visible.
+    */
+    #staff-app .composer {
+        order: 3;
+        flex: 0 0 auto !important;
+
+        background: #fff !important;
+
+        padding: 9px 14px 10px !important;
+
+        border-top: 1px solid var(--line);
+        border-bottom: 1px solid var(--line);
+    }
+
+    /* Conversation becomes the scrolling section below */
+    #staff-app .thread {
+        order: 4;
+
+        flex: 1 1 auto !important;
+
+        min-height: 100px !important;
+        max-height: none !important;
+
+        overflow-y: auto !important;
+
+        padding: 12px 18px !important;
+    }
+
+    /* Compact reply box */
+    #staff-app .composer textarea {
+        display: block;
+
+        width: 100% !important;
+
+        height: 70px !important;
+        min-height: 60px !important;
+        max-height: 95px !important;
+
+        overflow-y: auto !important;
+        resize: vertical;
+    }
+
+    /* Always keep all 3 buttons on screen */
+    #staff-app .actions {
+        margin-top: 7px !important;
+    }
+
+    #staff-app .actions > div {
+        display: grid !important;
+
+        grid-template-columns:
+            repeat(3, minmax(0, 1fr)) !important;
+
+        width: 100% !important;
+
+        gap: 7px !important;
+    }
+
+    #staff-app .actions button {
+        width: 100% !important;
+        min-width: 0 !important;
+
+        margin: 0 !important;
+
+        padding: 8px 4px !important;
+
+        font-size: 11px !important;
+
+        white-space: nowrap !important;
+    }
+}
+
+
+/* ============================================================
+   CaiPRUS mailbox startup state
+   ============================================================ */
+
+.mailbox-starting {
+    min-height: 420px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    padding: 30px;
+    text-align: center;
+    color: var(--muted);
+}
+
+.mailbox-starting strong,
+.mailbox-loading h2 {
+    color: var(--ink);
+    font-size: 16px;
+}
+
+.mailbox-spinner {
+    width: 28px !important;
+    height: 28px !important;
+    font-size: 0 !important;
+    border: 3px solid #d9dee5;
+    border-top-color: #315fd6;
+    border-radius: 50%;
+    animation: caiprus-spin .8s linear infinite;
+}
+
+.mailbox-loading .mailbox-spinner {
+    margin: 0 auto 12px;
+}
+
+@keyframes caiprus-spin {
+    to {
+        transform: rotate(360deg);
+    }
+}

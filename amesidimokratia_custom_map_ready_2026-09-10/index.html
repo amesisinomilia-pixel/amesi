@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Amesidimokratia map upload check</title>
+  <style>
+    :root { color-scheme: dark; font-family: system-ui, sans-serif; }
+    body { margin: 0; background: #111827; color: #f9fafb; }
+    main { max-width: 760px; margin: 48px auto; padding: 0 20px; }
+    .card { background: #1f2937; border: 1px solid #374151; border-radius: 16px; padding: 24px; margin: 18px 0; }
+    h1 { margin-top: 0; font-size: 1.65rem; }
+    h2 { font-size: 1.05rem; margin-top: 0; }
+    code { display: block; overflow-wrap: anywhere; padding: 12px; border-radius: 9px; background: #0b1220; color: #93c5fd; }
+    button, a.button { display: inline-block; margin-top: 12px; border: 0; border-radius: 9px; padding: 10px 14px; background: #2563eb; color: white; text-decoration: none; cursor: pointer; }
+    .ok { color: #86efac; }
+    .bad { color: #fca5a5; }
+    .muted { color: #cbd5e1; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Amesidimokratia map files</h1>
+    <p class="muted">Upload check and addresses for the new WorkAdventure room.</p>
+
+    <section class="card">
+      <h2>Custom map JSON address</h2>
+      <code id="json-url"></code>
+      <button id="copy-json" type="button">Copy JSON address</button>
+      <a class="button" href="map.json" target="_blank" rel="noopener">Open map.json</a>
+      <p id="json-status" class="muted">Checking map.json…</p>
+    </section>
+
+    <section class="card">
+      <h2>Full WorkAdventure editor file</h2>
+      <code id="wam-url"></code>
+      <a class="button" href="map.wam" target="_blank" rel="noopener">Open map.wam</a>
+      <p class="muted">Use map.wam through WorkAdventure Map Storage to retain the online-editor entities and areas.</p>
+    </section>
+  </main>
+  <script>
+    const here = new URL('.', window.location.href);
+    const jsonUrl = new URL('map.json', here).href;
+    const wamUrl = new URL('map.wam', here).href;
+    document.querySelector('#json-url').textContent = jsonUrl;
+    document.querySelector('#wam-url').textContent = wamUrl;
+    document.querySelector('#copy-json').addEventListener('click', async (event) => {
+      await navigator.clipboard.writeText(jsonUrl);
+      event.currentTarget.textContent = 'Copied';
+    });
+    fetch(jsonUrl, { cache: 'no-store' })
+      .then((response) => {
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        return response.json();
+      })
+      .then((map) => {
+        if (map.type !== 'map' || !Array.isArray(map.layers)) throw new Error('Not a Tiled map');
+        const status = document.querySelector('#json-status');
+        status.className = 'ok';
+        status.textContent = `Ready: ${map.width} × ${map.height} tiles, ${map.layers.length} layers.`;
+      })
+      .catch((error) => {
+        const status = document.querySelector('#json-status');
+        status.className = 'bad';
+        status.textContent = `map.json could not be verified: ${error.message}`;
+      });
+  </script>
+</body>
+</html>
+

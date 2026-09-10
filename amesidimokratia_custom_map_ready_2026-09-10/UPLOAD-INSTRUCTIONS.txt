@@ -1,0 +1,52 @@
+AMESIDIMOKRATIA — READY-TO-HOST WORKADVENTURE MAP
+===================================================
+
+FAST SETUP (the JSON-address method)
+------------------------------------
+1. On your web hosting, create a NEW folder, for example:
+      amesidimokratia-new
+
+2. Extract EVERY file from this ZIP into that new folder.
+   Keep the assets and contact-app-public-snapshot folders exactly as they are.
+
+3. Open this address in a browser and confirm that JSON text appears:
+      https://YOUR-DOMAIN/YOUR-FOLDER/map.json
+
+4. In WorkAdventure, create a NEW room/map, choose "Custom map", and paste:
+      https://YOUR-DOMAIN/YOUR-FOLDER/map.json
+
+5. Save and test the new room. Your old room is untouched because you used a
+   new room and a new hosting folder.
+
+WHAT IS INCLUDED
+----------------
+- map.json  : paste this address into the legacy/external Custom map field.
+- map.tmj   : the same Tiled map with WorkAdventure's current file extension.
+- map.wam   : the companion WorkAdventure map-editor data (3,787 entities,
+              210 areas and room settings), linked to map.tmj. Its 18 internal
+              exits were made portable so they stay inside the new room.
+- assets/   : the map script that adds the Greek "Επικοινωνία" button.
+- PNG files : all locally referenced map graphics.
+- contact-app-public-snapshot/ : a backup of the public CaiPRUS front-end files.
+- web.config and .htaccess : HTTPS-host CORS/MIME helpers for IIS and Apache.
+
+IMPORTANT DIFFERENCE BETWEEN map.json AND map.wam
+-------------------------------------------------
+The Custom map JSON method loads the Tiled map and its script. WorkAdventure's
+online-editor furniture, areas and settings live in map.wam. For the most exact
+copy, upload this ZIP to WorkAdventure Map Storage in a NEW upload directory;
+the matching map.tmj + map.wam files are already prepared for that method.
+
+BUTTONS
+-------
+- "Επικοινωνία" is included in assets/src-main-Cl_eT3_U.js. It currently opens
+  https://caiprus-inbox-212-227-31-195.nip.io and needs that service to remain
+  online for messages and login to work.
+- "Share" is part of the WorkAdventure interface, so it is not stored inside
+  map.json. It appears when sharing is enabled for the new WorkAdventure room.
+
+SERVER REQUIREMENTS
+-------------------
+- Use a public HTTPS address (not localhost and not a private IP address).
+- The server must return Access-Control-Allow-Origin: * for the map files.
+- Do not rename or separately move any of the included files.

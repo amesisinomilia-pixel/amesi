@@ -1,0 +1,267 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<script src="https://office.directdemocra.cy/iframe_api.js"></script>
+</head>
+<body style="display:none">
+<script>
+(() => {
+  const APP_URL = location.origin;
+  let appToken = null;
+  let refreshing = false;
+  let lastUnread = null;
+
+  async function authenticate() {
+    await WA.onInit();
+    const roomToken = WA.player.userRoomToken;
+    const playerId = WA.player.id;
+    if (!roomToken || !playerId) return false;
+
+    const r = await fetch(APP_URL + "/api/auth/workadventure", {
+      method: "POST",
+      headers: {"Content-Type":"application/json"},
+      body: JSON.stringify({
+        userRoomToken: roomToken,
+        id: playerId,
+        name: WA.player.name
+      })
+    });
+    if (!r.ok) return false;
+    const d = await r.json();
+    appToken = d.token;
+    return true;
+  }
+
+  async function publishUnread(red) {
+    if (red === lastUnread) return;
+    lastUnread = red;
+    try {
+      await WA.player.state.saveVariable("caiprusUnread", Boolean(red), {
+        public: false,
+        persist: false
+      });
+    } catch (e) {
+      console.error("CaiPRUS unread state publish failed:", e);
+    }
+  }
+
+  async function refreshUnread() {
+    if (refreshing) return;
+    refreshing = true;
+    try {
+      if (!appToken) {
+        const ok = await authenticate();
+        if (!ok) return;
+      }
+
+      let r = await fetch(APP_URL + "/api/citizen/unread", {
+        headers: {Authorization: "Bearer " + appToken}
+      });
+
+      if (r.status === 401) {
+        appToken = null;
+        const ok = await authenticate();
+        if (!ok) return;
+        r = await fetch(APP_URL + "/api/citizen/unread", {
+          headers: {Authorization: "Bearer " + appToken}
+        });
+      }
+
+      if (!r.ok) return;
+      const d = await r.json();
+      await publishUnread(Boolean(d.has_unread));
+    } catch (e) {
+      console.error("CaiPRUS unread watcher:", e);
+    } finally {
+      refreshing = false;
+    }
+  }
+
+  WA.onInit().then(async () => {
+    await refreshUnread();
+    setInterval(refreshUnread, 5000);
+  }).catch(e => console.error("CaiPRUS notification agent init:", e));
+})();
+</script>
+
+<script>
+/* CAIPRUS_REGISTRATION_MEMBER_GUARD */
+
+(async function () {
+
+    let gateOpened = false;
+
+    try {
+
+        await WA.onInit();
+
+        const playerId =
+            WA.player.id || "";
+
+        const roomToken =
+            WA.player.userRoomToken || "";
+
+        const playerName =
+            WA.player.name || "";
+
+
+        // ------------------------------------------------------
+        // Ask CaiPRUS whether this is an ACTUAL WorkAdventure
+        // world member.
+        //
+        // This uses the same server-side Members API lookup used
+        // by CaiPRUS authentication.
+        // ------------------------------------------------------
+
+        let isRealMember = false;
+
+        if (playerId && roomToken) {
+
+            try {
+
+                const response = await fetch(
+                    "/api/auth/workadventure",
+                    {
+                        method: "POST",
+
+                        headers: {
+                            "Content-Type":
+                                "application/json"
+                        },
+
+                        body: JSON.stringify({
+                            id: playerId,
+                            name: playerName,
+                            userRoomToken: roomToken
+                        })
+                    }
+                );
+
+
+                if (response.ok) {
+
+                    isRealMember = true;
+
+                    console.info(
+                        "Registration guard: verified WorkAdventure member"
+                    );
+
+                } else {
+
+                    console.info(
+                        "Registration guard: visitor is not a registered member",
+                        response.status
+                    );
+
+                }
+
+            } catch (e) {
+
+                // Important:
+                // If CaiPRUS itself is temporarily unreachable,
+                // do NOT lock legitimate users out of the office.
+                console.error(
+                    "Registration guard verification failed:",
+                    e
+                );
+
+                return;
+            }
+
+        }
+
+
+        // Registered member:
+        // absolutely nothing happens.
+        if (isRealMember) {
+            return;
+        }
+
+
+        // ------------------------------------------------------
+        // Anonymous/non-member visitor
+        // ------------------------------------------------------
+
+        if (gateOpened) {
+            return;
+        }
+
+        gateOpened = true;
+
+
+        try {
+
+            WA.controls.disablePlayerControls();
+
+        } catch (e) {
+
+            console.error(
+                "Could not disable visitor controls:",
+                e
+            );
+
+        }
+
+
+        try {
+
+            await WA.ui.website.open({
+
+                url:
+                    "https://caiprus-inbox-212-227-31-195.nip.io" +
+                    "/static/registration-gate.html",
+
+                visible: true,
+
+                allowApi: true,
+
+                position: {
+                    vertical: "middle",
+                    horizontal: "middle"
+                },
+
+                size: {
+                    width: "100vw",
+                    height: "100vh"
+                },
+
+                margin: {
+                    top: "0px",
+                    bottom: "0px",
+                    left: "0px",
+                    right: "0px"
+                }
+
+            });
+
+
+            console.info(
+                "Registration gate opened for non-member visitor"
+            );
+
+
+        } catch (e) {
+
+            console.error(
+                "Could not open registration gate:",
+                e
+            );
+
+        }
+
+
+    } catch (e) {
+
+        console.error(
+            "Registration member guard failed:",
+            e
+        );
+
+    }
+
+})();
+</script>
+
+</body>
+</html>
